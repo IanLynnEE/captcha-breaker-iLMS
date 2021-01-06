@@ -45,9 +45,9 @@ function hack() {
     imgNode.parentNode.appendChild(canvas);
 
     input.value = OCRAD(canvas, {numeric: true, scale: 5});
-
-//     Tesseract.recognize(canvas, 'eng', config='outputbase digits')
-//     .then(({ data: { text } }) => {console.log(text); input.value = text;});
+    
+    Tesseract.recognize(canvas, 'eng', config='outputbase digits')
+        .then(({ data: { text } }) => {console.log(text); input.value = text;});
 
     high.delete();
     low.delete();

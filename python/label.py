@@ -1,4 +1,5 @@
 import os
+
 import cv2
 
 # This program will not consider duplicated images.
@@ -29,7 +30,7 @@ def get_index():
 def save_single(key, single):
     global Labeldir, Index
     note = Index[key] + 1
-    filename = f'{key}{note:05}.jpeg'
+    filename = f'{key}{note:05}.png'
     cv2.imwrite(Labeldir+filename, single)
     Index[key] += 1
     return
@@ -42,7 +43,7 @@ def main():
 
     print('Press esc on the opencv window to end the program.')
     cv2.namedWindow('Labeling', cv2.WINDOW_NORMAL)
-    cv2.resizeWindow('Labeling', 240, 520)
+    cv2.resizeWindow('Labeling', 520, 240)
 
     get_index()
     print('Index :', Index)

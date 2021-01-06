@@ -5,15 +5,16 @@ import cv2
 def get_std():
     std = {}
     for i in range(1, 10):
-        filename = f'../labeled/{i}00001.jpeg'
+        filename = f'../labeled/{i}00001.png'
         std[i] = cv2.imread(filename, cv2.IMREAD_GRAYSCALE)
+        print(std[i])
     return std
 
 
 def pixel_per_col(nine_img_dict):
     import numpy as np
     from matplotlib import pyplot as plt
-    for i in range(1,10):
+    for i in range(1,10): 
         img = nine_img_dict[i]
         x = np.count_nonzero(img, axis=0)
         print(i, ':', x)

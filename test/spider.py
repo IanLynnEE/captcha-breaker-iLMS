@@ -4,7 +4,7 @@ import requests
 
 
 def get_index():
-    filelist = sorted(os.listdir('../images'))
+    filelist = sorted(os.listdir('./images'))
     if len(filelist) < 1:
         return 0
     last_filename = filelist[-1].split('.')[0]
@@ -12,7 +12,7 @@ def get_index():
 
 def download_img(index): 
     imgsrc = 'https://lms.nthu.edu.tw/sys/lib/class/csecimg.php?width=80&height=26&characters=4'
-    with open(f'../images/{index:06}.png', 'wb') as f:
+    with open(f'./images/{index:06}.png', 'wb') as f:
         f.write(requests.get(imgsrc).content)
     return
 

@@ -4,8 +4,8 @@ import cv2
 
 # This program will not consider duplicated images.
 # So, change Imagedir if you need.
-Labeldir = '../labeled/'
-Imagedir = '../images/'
+Labeldir = './labeled/'
+Imagedir = './images/'
 Index = {}
 Low = (30, 0, 0)
 High = (160, 90, 70)

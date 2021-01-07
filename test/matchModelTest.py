@@ -5,7 +5,7 @@ import cv2
 def get_std():
     std = {}
     for i in range(1, 10):
-        filename = f'../labeled/{i}00001.png'
+        filename = f'./labeled/{i}00001.png'
         std[i] = cv2.imread(filename, cv2.IMREAD_GRAYSCALE)
         print(std[i])
     return std
@@ -38,7 +38,7 @@ def match_score(sample, target):
 
 
 if __name__ == '__main__':
-    path = '../labeled/'
+    path = './labeled/'
     std = get_std()
     for filename in sorted(os.listdir(path)):
         sample = cv2.imread(path+filename, cv2.IMREAD_GRAYSCALE)

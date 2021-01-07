@@ -31,8 +31,16 @@ canvas.style = 'margin: auto; display: block;'
 function hack() {
     var img = cv.imread('secCode');
     var rgb = new cv.Mat();
+//  var hsv = new cv.Mat();
+    
     cv.cvtColor(img, rgb, cv.COLOR_RGBA2RGB, 3);
+//  cv.cvtColor(rgb, hsv, cv.COLOR_RGB2HSV);
 
+//  var mask = new cv.Mat();
+//  var low = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [100, 110, 0, 0]);
+//  var high = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [130, 250, 150, 255]);
+//  cv.inRange(hsv, low, high, mask);
+    
     var mask = new cv.Mat();
     var low = new cv.Mat(rgb.rows, rgb.cols, rgb.type(), [0, 0, 30, 0]);
     var high = new cv.Mat(rgb.rows, rgb.cols, rgb.type(), [70, 90, 160, 255]);
@@ -52,6 +60,7 @@ function hack() {
     high.delete();
     low.delete();
     mask.delete();
+//  hsv.delete();
     rgb.delete();
     img.delete();
     

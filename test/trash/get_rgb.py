@@ -35,10 +35,4 @@ print('R :', sorted(R))
 print('G :', sorted(G))
 print('B :', sorted(B))
 
-cut = [18,30,42,54,66]
-for i in range(1, len(cut)):
-    st, end = cut[i-1], cut[i]
-    plt.imshow(IM[:,st:end,:])
-    plt.show()
-
 

@@ -9,7 +9,8 @@ filename = sys.argv[1]
 img = cv2.imread(filename)
 
 
-mask_bgr = cv2.inRange(img, (30,0,0), (160,90,70))
+# mask_bgr = cv2.inRange(img, (30,0,0), (160,90,70))
+mask_bgr = cv2.inRange(img, (30,0,0), (160,180,70))
 invert_mask_bgr = cv2.bitwise_not(mask_bgr)
 text = pytesseract.image_to_string(invert_mask_bgr, config=config_1)
 print(text.strip())

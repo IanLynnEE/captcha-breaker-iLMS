@@ -14,7 +14,8 @@ def get_std():
 
 
 def print_std_in_base64(std):
-    retval, buffer = cv2.imencode( '.png', np.hstack(std), cv2.IMWRITE_PNG_BILEVEL )
+    # retval, buffer = cv2.imencode( '.png', np.hstack(std), cv2.IMWRITE_PNG_BILEVEL )
+    retval, buffer = cv2.imencode( '.png', np.hstack(std))
     print( base64.b64encode(buffer) )
     return
 
@@ -24,7 +25,7 @@ def match_score(sample, target):
     XOR = cv2.bitwise_xor(sample, target)
     
     w = 1 - (cv2.countNonZero(target) / 312)
-    return cv2.countNonZero(AND) * w - cv2.countNonZero(XOR) * w
+    return cv2.countNonZero(AND) - cv2.countNonZero(XOR) 
 
 
 if __name__ == '__main__':
@@ -35,10 +36,11 @@ if __name__ == '__main__':
         print(f'For {filename}', end=' ')
         max_score = match_score(sample, std[1])
         number = 1
-        for i in range(1,10):
+        for i in range(1, 10):
             if match_score(sample, std[i]) > max_score:
                 max_score = match_score(sample, std[i])
                 number = i
+        
         if number != int(filename[0]):
             print('select_num', number, 'ERROR!')
         else:

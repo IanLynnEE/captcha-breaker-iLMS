@@ -1,8 +1,11 @@
 // ==UserScript==
-// @name        iLMS
-// @description de captcha by hsv
+// @name        iLMS v2
+// @description de captcha by rgb
 // @match       *://lms.nthu.edu.tw/login_page.php*
 // ==/UserScript==
+
+// try to not use opencv?
+// developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Pixel_manipulation_with_canvas
 
 // Add Tesseract script
 var tesseractScript = document.createElement('script');
@@ -17,7 +20,7 @@ document.body.appendChild(ocradScript);
 // Add Opencv script
 var cvScript = document.createElement('script');
 cvScript.src = 'https://docs.opencv.org/4.5.0/opencv.js';
-document.body.appendChild(cvScript);
+document.head.appendChild(cvScript);
 
 // Prepare to insert result
 var input = document.getElementById('loginSecCode');
@@ -25,37 +28,46 @@ var imgNode = document.getElementById('secCode');
 var canvas = document.createElement('canvas');
 canvas.style = 'margin: auto; display: block;'
 
-function deCaptcha() {
+function hack() {
     var img = cv.imread('secCode');
     var rgb = new cv.Mat();
-    var hsv = new cv.Mat();
+//  var hsv = new cv.Mat();
     
     cv.cvtColor(img, rgb, cv.COLOR_RGBA2RGB, 3);
-    cv.cvtColor(rgb, hsv, cv.COLOR_RGB2HSV);
+//  cv.cvtColor(rgb, hsv, cv.COLOR_RGB2HSV);
 
-    var mask = new cv.Mat();
-    var low = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [100, 110, 0, 0]);
-    var high = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [130, 250, 150, 255]);
-    cv.inRange(hsv, low, high, mask);
-    cv.bitwise_not(mask, mask);
+//  var mask = new cv.Mat();
+//  var low = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [100, 110, 0, 0]);
+//  var high = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [130, 250, 150, 255]);
+//  cv.inRange(hsv, low, high, mask);
     
+    var mask = new cv.Mat();
+    var low = new cv.Mat(rgb.rows, rgb.cols, rgb.type(), [0, 0, 30, 0]);
+    var high = new cv.Mat(rgb.rows, rgb.cols, rgb.type(), [70, 90, 160, 255]);
+
+    cv.inRange(rgb, low, high, mask);
+    cv.bitwise_not(mask, mask);
+//     cv.medianBlur(mask, mask, 3);
+
     cv.imshow(canvas, mask);
     imgNode.parentNode.appendChild(canvas);
 
-    console.log(OCRAD(canvas, {numeric: true}));
+    input.value = OCRAD(canvas, {numeric: true, scale: 5});
     
     Tesseract.recognize(canvas, 'eng', config='outputbase digits')
-    .then(({ data: { text } }) => {input.value = text; console.log(text);});
-    
+        .then(({ data: { text } }) => {console.log(text); input.value = text;});
+
     high.delete();
     low.delete();
     mask.delete();
-    hsv.delete();
+//  hsv.delete();
     rgb.delete();
     img.delete();
     
     window.clearInterval(autoID);
 }
 
-var autoID = window.setInterval(deCaptcha, 1000);
-document.body.onclick = () => { deCaptcha(); }
+// It seems that setInterval is the best way 
+// to fire the function after dependencies loaded.
+var autoID = window.setInterval(hack, 1000);
+document.body.onclick = () => { hack(); }

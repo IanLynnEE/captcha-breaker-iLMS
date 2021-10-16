@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name        iLMS v3
 // @description de captcha without opencv
-// @match       *://lms.*.edu.tw/login_page.php*
-// @match       *://ilms.*.edu.tw/login_page.php*
+// @match       https://lms.nthu.edu.tw/login_page.php*
+// @match       https://ilms.nthu.edu.tw/login_page.php*
 // ==/UserScript==
 
 var input = document.getElementById('loginSecCode');
